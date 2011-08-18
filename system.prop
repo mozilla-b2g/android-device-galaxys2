@@ -8,3 +8,8 @@ ro.sf.lcd_density=240
 dalvik.vm.heapsize=64m
 dalvik.vm.dexopt-data-only=1
 
+
+# Give me a root shell and adb debugging
+ro.secure=0
+ro.debuggable=1
+persist.service.adb.enable=1
