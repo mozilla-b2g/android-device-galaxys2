@@ -18,13 +18,16 @@ DEVICE=galaxys2
 COMMON=c1-common
 MANUFACTURER=samsung
 
-FIRMWARE=unknown
-VERSION_STRING=`adb shell cat /proc/version`
-
-if echo "$VERSION_STRING" | grep "2.6.35.7-I9100UHKG7-CL417954" > /dev/null
-then
-FIRMWARE=UHKG7
-fi
+KERNEL_RELEASE=`adb shell cat /proc/version | awk '{print $3}'`
+case $KERNEL_RELEASE in
+"2.6.35.7-I9100UHKG7-CL417954")
+  FIRMWARE=UHKG7 ;;
+"2.6.35.7-I9100XWKE2-CL187606")
+  FIRMWARE=XWKE2 ;;
+*)
+  echo Warning, your device has unknown firmware >&2
+  FIRMWARE=unknown ;;
+esac
 
 BASE_PROPRIETARY_COMMON_DIR=vendor/$MANUFACTURER/$COMMON/proprietary
 PROPRIETARY_DEVICE_DIR=../../../vendor/$MANUFACTURER/$DEVICE/proprietary
@@ -131,9 +134,6 @@ COMMON_LIBS="
 	libs5pjpeg.so
 	libseccameraadaptor.so
 	libseccamera.so
-	libsecjpegarcsoft.so
-	libsecjpegboard.so
-	libsecjpeginterface.so
 	libsecril-client.so
 	libsec-ril.so
 	libtvoutcec.so
@@ -159,7 +159,7 @@ COMMON_BINS="
 	"
 if [ $FIRMWARE != "UHKG7" ] 
 then
-COMMON_BINS="$COMMON_BINS BCM4330B1_002.001.003.0128.0162.hcd"
+COMMON_BINS="$COMMON_BINS BCM4330B1_002.001.003.0043.0077.hcd"
 else
 COMMON_BINS="$COMMON_BINS BCM4330B1_002.001.003.0221.0265.hcd"
 fi
@@ -184,16 +184,7 @@ copy_files "$COMMON_EGL" "system/lib/egl" "egl"
 
 COMMON_FIRMWARE="
 	qt602240.fw
-	RS_M5LS_OB.bin
-	RS_M5LS_TB.bin
 	"
-
-if [ $FIRMWARE != "UHKG7" ] 
-then
-COMMON_FIRMWARE="$COMMON_FIRMWARE RS_M5LS_OC.bin"
-else
-COMMON_FIRMWARE="$COMMON_FIRMWARE RS_M5LS_OE.bin"
-fi
 copy_files "$COMMON_FIRMWARE" "system/etc/firmware" "firmware"
 copy_files "mfc_fw.bin" "vendor/firmware" "firmware"
 
