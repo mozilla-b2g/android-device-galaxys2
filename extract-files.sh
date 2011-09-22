@@ -243,7 +243,6 @@ COMMON_AUDIO="
 	libsamsungSoundbooster.so
 	lib_Samsung_Sound_Booster.so
 	libsoundalive.so
-	libsoundpool.so
 	libSR_AudioIn.so
 	libyamahasrc.so
 	"
