@@ -18,14 +18,14 @@ DEVICE=galaxys2
 COMMON=c1-common
 MANUFACTURER=samsung
 
-KERNEL_RELEASE=`adb shell cat /proc/version | awk '{print $3}'`
-case $KERNEL_RELEASE in
-"2.6.35.7-I9100UHKG7-CL417954")
+DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+case "$DEVICE_BUILD_ID" in
+"GINGERBREAD.UHKG7")
   FIRMWARE=UHKG7 ;;
-"2.6.35.7-I9100XWKE2-CL187606")
+"GINGERBREAD.XWKE2")
   FIRMWARE=XWKE2 ;;
 *)
-  echo Warning, your device has unknown firmware >&2
+  echo Warning, your device has unknown firmware $DEVICE_BUILD_ID >&2
   FIRMWARE=unknown ;;
 esac
 
