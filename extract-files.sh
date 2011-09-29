@@ -107,9 +107,14 @@ copy_files()
 {
     for NAME in $1
     do
-        echo Pulling $NAME
-        adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
-        echo $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\\\ >> $COMMON_BLOBS_LIST
+        echo Pulling \"$NAME\"
+        if adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
+	then
+            echo   $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\\\ >> $COMMON_BLOBS_LIST
+        else
+            echo Failed to pull $NAME. Giving up.
+            exit -1
+        fi
     done
 }
 
@@ -156,13 +161,8 @@ copy_files "$COMMON_LIBS" "system/lib" ""
 COMMON_BINS="
 	rild
 	tvoutserver
+	`basename \`adb shell ls /system/bin/*.hcd\` | tr -d '\r'`
 	"
-if [ $FIRMWARE != "UHKG7" ] 
-then
-COMMON_BINS="$COMMON_BINS BCM4330B1_002.001.003.0043.0077.hcd"
-else
-COMMON_BINS="$COMMON_BINS BCM4330B1_002.001.003.0221.0265.hcd"
-fi
 copy_files "$COMMON_BINS" "system/bin" ""
 
 if [ $FIRMWARE != "UHKG7" ] 
