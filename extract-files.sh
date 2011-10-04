@@ -24,6 +24,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=UHKG7 ;;
 "GINGERBREAD.XWKE2")
   FIRMWARE=XWKE2 ;;
+"GWK74")
+  FIRMWARE=GWK74 ;;
 *)
   echo Warning, your device has unknown firmware $DEVICE_BUILD_ID >&2
   FIRMWARE=unknown ;;
@@ -152,7 +154,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE != "UHKG7" ]
+if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "GWK74" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -188,7 +190,21 @@ COMMON_FIRMWARE="
 copy_files "$COMMON_FIRMWARE" "system/etc/firmware" "firmware"
 copy_files "mfc_fw.bin" "vendor/firmware" "firmware"
 
-COMMON_HW="
+if [ $FIRMWARE = "GWK74" ]
+then
+    COMMON_HW="
+	acoustics.default.so
+	alsa.default.so
+	copybit.smdkv310.so
+	gps.goldfish.so
+	gralloc.default.so
+	gralloc.smdkv310.so
+	lights.smdkv310.so
+	overlay.smdkv310.so
+	sensors.goldfish.so
+	"
+else
+    COMMON_HW="
 	acoustics.default.so
 	alsa.default.so
 	copybit.GT-I9100.so
@@ -199,6 +215,8 @@ COMMON_HW="
 	overlay.GT-I9100.so
 	sensors.GT-I9100.so
 	"
+fi
+
 copy_files "$COMMON_HW" "system/lib/hw" "hw"
 
 COMMON_KEYCHARS="
@@ -214,7 +232,13 @@ COMMON_WIFI="
 	bcm4330_mfg.bin
 	bcm4330_sta.bin
 	"
+if [ $FIRMWARE = "GWK74" ]; then
+copy_files "$COMMON_WIFI" "system/vendor/firmware" "wifi"
+else
 copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
+fi
+
+copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
 
 COMMON_AUDIO="
 	libasound.so
