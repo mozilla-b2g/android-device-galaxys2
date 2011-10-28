@@ -237,16 +237,27 @@ COMMON_KEYCHARS="
 copy_files "$COMMON_KEYCHARS" "system/usr/keychars" "keychars"
 
 COMMON_WIFI="
+	bcm4330_aps.bin
 	bcm4330_mfg.bin
 	bcm4330_sta.bin
+	nvram_mfg.txt
+	nvram_net.txt
+	nvram_net_02K.txt
+	wifi.conf
+	wpa_supplicant.conf
 	"
 if [ $FIRMWARE = "GWK74" ]; then
 copy_files "$COMMON_WIFI" "system/vendor/firmware" "wifi"
+copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
 else
 copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
 fi
 
-copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
+COMMON_WIFI_LIBS="
+	libhardware_legacy.so
+	libnetutils.so
+	"
+copy_files "$COMMON_WIFI_LIBS" "system/lib" "wifi"
 
 COMMON_AUDIO="
 	libasound.so
