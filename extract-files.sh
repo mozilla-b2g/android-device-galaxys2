@@ -22,8 +22,11 @@ DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | s
 case "$DEVICE_BUILD_ID" in
 "GINGERBREAD.UHKG7")
   FIRMWARE=UHKG7 ;;
+"GINGERBREAD.UHKI2")
+  FIRMWARE=UHKI2 ;;
 "GINGERBREAD.XWKE2")
-  FIRMWARE=XWKE2 ;;
+  echo 'Sorry, this firmware is too old (2.3.3).  Upgrade to 2.3.4.' >&2
+  exit 1 ;;
 "GINGERBREAD.ZSKI3")
   FIRMWARE=ZSKI3 ;;
 "GWK74")
@@ -156,7 +159,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" ]
+if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" ]
 then
     COMMON_LIBS="$COMMON_LIBS
                  libsecjpeginterface.so
@@ -165,7 +168,7 @@ then
 fi
 
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
-    [ $FIRMWARE != "GWK74" ]
+    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -178,7 +181,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" ] 
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" ] 
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -227,7 +230,7 @@ else
 	"
 fi
 
-if [ $FIRMWARE = "ZSKI3" ]
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" ]
 then
     COMMON_HW="$COMMON_HW gps.s5pc210.so"
 else
