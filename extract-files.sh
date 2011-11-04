@@ -161,7 +161,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" ]
+if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" ]
 then
     COMMON_LIBS="$COMMON_LIBS
                  libsecjpeginterface.so
