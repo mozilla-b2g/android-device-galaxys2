@@ -31,6 +31,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=ZSKI3 ;;
 "GWK74")
   FIRMWARE=GWK74 ;;
+"GINGERBREAD.XWKI4")
+  FIRMWARE=XWKI4 ;;
 *)
   echo Warning, your device has unknown firmware $DEVICE_BUILD_ID >&2
   FIRMWARE=unknown ;;
@@ -168,7 +170,8 @@ then
 fi
 
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
-    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ]
+   [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
+   [ $FIRMWARE != "XWKI4" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -181,7 +184,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" ] 
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" ] 
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -230,7 +233,7 @@ else
 	"
 fi
 
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" ]
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" ]
 then
     COMMON_HW="$COMMON_HW gps.s5pc210.so"
 else
