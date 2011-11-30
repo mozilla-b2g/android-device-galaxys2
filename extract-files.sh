@@ -297,4 +297,6 @@ COMMON_AUDIO="
 	"
 copy_files "$COMMON_AUDIO" "system/lib" "audio"
 
+./extract-cm.sh
+
 ./setup-makefiles.sh
