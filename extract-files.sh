@@ -261,6 +261,9 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
+if [ $FIRMWARE = "ZSKI3" ]; then
+COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
+fi
 if [ $FIRMWARE = "GWK74" ]; then
 copy_files "$COMMON_WIFI" "system/vendor/firmware" "wifi"
 copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
