@@ -135,14 +135,10 @@ COMMON_LIBS="
 	libcameraservice.so
 	libcamera.so
 	libcaps.so
-	libEGL.so
 	libexif.so
 	libfimc.so
 	libfimg.so
-	libGLESv1_CM.so
-	libGLESv2.so
 	libMali.so
-	libOpenSLES.so
 	libPanoraMax3.so
 	libril.so
 	libs5pjpeg.so
@@ -195,7 +191,6 @@ copy_files "$COMMON_CAMERADATA" "system/cameradata" "cameradata"
 
 COMMON_EGL="
 	libEGL_mali.so
-	libGLES_android.so
 	libGLESv1_CM_mali.so
 	libGLESv2_mali.so
 	"
