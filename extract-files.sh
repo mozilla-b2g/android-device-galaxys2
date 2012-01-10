@@ -33,6 +33,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=GWK74 ;;
 "GINGERBREAD.XWKI4")
   FIRMWARE=XWKI4 ;;
+"GINGERBREAD.ZNKG5")
+  FIRMWARE=ZNKG5 ;;
 *)
   echo Warning, your device has unknown firmware $DEVICE_BUILD_ID >&2
   FIRMWARE=unknown ;;
@@ -167,7 +169,7 @@ fi
 
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
-   [ $FIRMWARE != "XWKI4" ]
+   [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -180,7 +182,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" ] 
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" ]
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -247,7 +249,6 @@ COMMON_KEYCHARS="
 copy_files "$COMMON_KEYCHARS" "system/usr/keychars" "keychars"
 
 COMMON_WIFI="
-	bcm4330_aps.bin
 	bcm4330_mfg.bin
 	bcm4330_sta.bin
 	nvram_mfg.txt
@@ -256,6 +257,11 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
+
+if [ $FIRMWARE != "ZNKG5" ]; then
+	COMMON_WIFI = "$COMMON_WIFI bcm4330_aps.bin"
+fi
+
 if [ $FIRMWARE = "GWK74" ]; then
 copy_files "$COMMON_WIFI" "system/vendor/firmware" "wifi"
 copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
