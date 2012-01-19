@@ -55,6 +55,7 @@ TARGET_RELEASETOOL_IMG_FROM_TARGET_SCRIPT := ./device/samsung/c1-common/releaset
 USE_CAMERA_STUB := false
 ifeq ($(USE_CAMERA_STUB),false)
 BOARD_CAMERA_LIBRARIES := libcamera
+TARGET_GLOBAL_CPPFLAGS += -DUSE_GS2_LIBCAMERA
 endif
 
 # Bluetooth
