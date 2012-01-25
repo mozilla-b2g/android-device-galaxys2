@@ -22,6 +22,8 @@ DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | s
 case "$DEVICE_BUILD_ID" in
 "GINGERBREAD.UHKG7")
   FIRMWARE=UHKG7 ;;
+"GINGERBREAD.XWKE7")
+  FIRMWARE=XWKE7 ;;
 "GINGERBREAD.UHKI2")
   FIRMWARE=UHKI2 ;;
 "GINGERBREAD.XWKE2")
@@ -36,8 +38,8 @@ case "$DEVICE_BUILD_ID" in
 "GINGERBREAD.ZNKG5")
   FIRMWARE=ZNKG5 ;;
 *)
-  echo Warning, your device has unknown firmware $DEVICE_BUILD_ID >&2
-  FIRMWARE=unknown ;;
+  echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
+  exit 1 ;;
 esac
 
 BASE_PROPRIETARY_COMMON_DIR=vendor/$MANUFACTURER/$COMMON/proprietary
@@ -121,7 +123,7 @@ copy_files()
         echo Pulling \"$NAME\"
         if adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
 	then
-            echo   $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\\\ >> $COMMON_BLOBS_LIST
+            echo   $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\ >> $COMMON_BLOBS_LIST
         else
             echo Failed to pull $NAME. Giving up.
             exit -1
@@ -169,7 +171,8 @@ fi
 
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
-   [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ]
+   [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ] && \
+   [ $FIRMWARE != "XWKE7" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -182,7 +185,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" ]
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" ]
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -258,7 +261,7 @@ COMMON_WIFI="
 	wpa_supplicant.conf
 	"
 
-if [ $FIRMWARE != "ZNKG5" ]; then
+if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
 	COMMON_WIFI = "$COMMON_WIFI bcm4330_aps.bin"
 fi
 
