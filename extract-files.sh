@@ -37,6 +37,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=XWKI4 ;;
 "GINGERBREAD.ZNKG5")
   FIRMWARE=ZNKG5 ;;
+"GINGERBREAD.XXKI3")
+  FIRMWARE=XXKI3 ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -172,7 +174,7 @@ fi
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
    [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ] && \
-   [ $FIRMWARE != "XWKE7" ]
+   [ $FIRMWARE != "XWKE7" ] && [ $FIRMWARE != "XXKI3" ] 
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -185,7 +187,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" ]
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" -a $FIRMWARE != "XXKI3" ]
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -233,7 +235,7 @@ else
 	"
 fi
 
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" ]
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" ]
 then
     COMMON_HW="$COMMON_HW gps.s5pc210.so"
 else
@@ -264,8 +266,12 @@ if [ $FIRMWARE = "ZSKI3" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
+if [ $FIRMWARE = "XXKI3" ]; then
+  COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
+fi
+
 if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
-	COMMON_WIFI = "$COMMON_WIFI bcm4330_aps.bin"
+  COMMON_WIFI="$COMMON_WIFI bcm4330_aps.bin"
 fi
 
 if [ $FIRMWARE = "GWK74" ]; then
