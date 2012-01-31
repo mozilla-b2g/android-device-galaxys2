@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright (C) 2010 The Android Open Source Project
 #
@@ -18,7 +18,12 @@ DEVICE=galaxys2
 COMMON=c1-common
 MANUFACTURER=samsung
 
-DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+if [[ -z "${ANDROIDFS_DIR}" ]]; then
+    DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+else
+    DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+fi
+
 case "$DEVICE_BUILD_ID" in
 "GINGERBREAD.UHKG7")
   FIRMWARE=UHKG7 ;;
@@ -123,8 +128,16 @@ copy_files()
     for NAME in $1
     do
         echo Pulling \"$NAME\"
-        if adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
-	then
+        if [[ -z "${ANDROIDFS_DIR}" ]]; then
+            adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
+        else
+           # Hint: Uncomment the next line to populate a fresh ANDROIDFS_DIR
+           #       (TODO: Make this a command-line option or something.)
+           # adb pull /$2/$NAME ${ANDROIDFS_DIR}/$2/$NAME
+           cp ${ANDROIDFS_DIR}/$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
+        fi
+
+        if [[ -f $PROPRIETARY_COMMON_DIR/$3/$NAME ]]; then
             echo   $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\ >> $COMMON_BLOBS_LIST
         else
             echo Failed to pull $NAME. Giving up.
