@@ -260,6 +260,9 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
+if [ $FIRMWARE = "ZSKI3" ]; then
+    COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
+fi
 
 if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
 	COMMON_WIFI = "$COMMON_WIFI bcm4330_aps.bin"
