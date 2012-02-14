@@ -40,6 +40,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=GWK74 ;;
 "GINGERBREAD.XWKI4")
   FIRMWARE=XWKI4 ;;
+"GINGERBREAD.XWKJ2")
+  FIRMWARE=XWKJ2 ;;
 "GINGERBREAD.ZNKG5")
   FIRMWARE=ZNKG5 ;;
 "GINGERBREAD.XXKI3")
@@ -176,7 +178,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" ]
+if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" ]
 then
     COMMON_LIBS="$COMMON_LIBS
                  libsecjpeginterface.so
@@ -187,7 +189,8 @@ fi
 if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
    [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ] && \
-   [ $FIRMWARE != "XWKE7" ] && [ $FIRMWARE != "XXKI3" ] 
+   [ $FIRMWARE != "XWKE7" ] && [ $FIRMWARE != "XXKI3" ] && \
+   [ $FIRMWARE != "XWKJ2" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -200,7 +203,7 @@ COMMON_BINS="
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" -a $FIRMWARE != "XXKI3" ]
+if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" -a $FIRMWARE != "XXKI3" -a $FIRMWARE != "XWKJ2" ]
 then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
@@ -248,7 +251,7 @@ else
 	"
 fi
 
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" ]
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKJ2" ]
 then
     COMMON_HW="$COMMON_HW gps.s5pc210.so"
 else
