@@ -196,10 +196,15 @@ then
 fi
 copy_files "$COMMON_LIBS" "system/lib" ""
 
+if [[ -z "${ANDROIDFS_DIR}" ]]; then
+   HCDNAME=`basename \`adb shell ls /system/bin/*.hcd\` | tr -d '\r'`
+else
+   HCDNAME=`basename ${ANDROIDFS_DIR}/system/bin/*.hcd`
+fi
 COMMON_BINS="
 	rild
 	tvoutserver
-	`basename \`adb shell ls /system/bin/*.hcd\` | tr -d '\r'`
+	${HCDNAME}
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
@@ -278,12 +283,8 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
-if [ $FIRMWARE = "ZSKI3" ]; then
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKI4" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
-fi
-
-if [ $FIRMWARE = "XXKI3" ]; then
-  COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
 if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
