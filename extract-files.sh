@@ -57,7 +57,7 @@ PROPRIETARY_COMMON_DIR=../../../$BASE_PROPRIETARY_COMMON_DIR
 
 mkdir -p $PROPRIETARY_DEVICE_DIR
 
-for NAME in audio cameradat egl firmware hw keychars wifi
+for NAME in audio cameradat egl firmware hw keychars wifi media
 do
     mkdir -p $PROPRIETARY_COMMON_DIR/$NAME
 done
@@ -159,6 +159,7 @@ COMMON_LIBS="
 	libexif.so
 	libfimc.so
 	libfimg.so
+	libQmageDecoder.so
 	libMali.so
 	libPanoraMax3.so
 	libril.so
@@ -202,6 +203,9 @@ else
    HCDNAME=`basename ${ANDROIDFS_DIR}/system/bin/*.hcd`
 fi
 COMMON_BINS="
+	playlpm
+	immvibed
+	charging_mode
 	rild
 	tvoutserver
 	${HCDNAME}
@@ -326,6 +330,38 @@ COMMON_AUDIO="
 	libyamahasrc.so
 	"
 copy_files "$COMMON_AUDIO" "system/lib" "audio"
+
+COMMON_MEDIA="
+	battery_batteryerror.qmg
+	battery_charging_45.qmg
+	battery_charging_85.qmg
+	battery_charging_100.qmg
+	battery_charging_50.qmg
+	battery_charging_90.qmg
+	battery_charging_10.qmg
+	battery_charging_55.qmg
+	battery_charging_95.qmg
+	battery_charging_15.qmg
+	battery_charging_5.qmg
+	battery_error.qmg
+	battery_charging_20.qmg
+	battery_charging_60.qmg
+	bootsamsungloop.qmg
+	battery_charging_25.qmg
+	battery_charging_65.qmg
+	bootsamsung.qmg
+	battery_charging_30.qmg
+	battery_charging_70.qmg
+	chargingwarning.qmg
+	battery_charging_35.qmg
+	battery_charging_75.qmg
+	Disconnected.qmg
+	battery_charging_40.qmg
+	battery_charging_80.qmg
+	odeanim.qmg
+"
+
+copy_files "$COMMON_MEDIA" "system/media" "media"
 
 ./extract-cm.sh
 
