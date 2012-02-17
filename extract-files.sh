@@ -46,6 +46,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=ZNKG5 ;;
 "GINGERBREAD.XXKI3")
   FIRMWARE=XXKI3 ;;
+"GINGERBREAD.XXKI4")
+  FIRMWARE=XXKI4 ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -179,7 +181,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" ]
+if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" ]
 then
     COMMON_LIBS="$COMMON_LIBS
                  libsecjpeginterface.so
@@ -191,7 +193,7 @@ if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
    [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
    [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ] && \
    [ $FIRMWARE != "XWKE7" ] && [ $FIRMWARE != "XXKI3" ] && \
-   [ $FIRMWARE != "XWKJ2" ]
+   [ $FIRMWARE != "XWKJ2" ] && [ $FIRMWARE != "XXKI4" ]
 then
     COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
 fi
@@ -260,7 +262,7 @@ else
 	"
 fi
 
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKJ2" ]
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" ]
 then
     COMMON_HW="$COMMON_HW gps.s5pc210.so"
 else
@@ -289,6 +291,14 @@ COMMON_WIFI="
 	"
 if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKI4" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
+fi
+
+if [ $FIRMWARE = "XXKI3" ]; then
+  COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
+fi
+
+if [ $FIRMWARE = "XXKI4" ]; then
+  COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
 if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
