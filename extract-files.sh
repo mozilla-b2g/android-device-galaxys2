@@ -289,7 +289,7 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "UHKI2" ]; then
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
@@ -360,8 +360,13 @@ COMMON_MEDIA="
 	Disconnected.qmg
 	battery_charging_40.qmg
 	battery_charging_80.qmg
-	odeanim.qmg
 "
+
+if [ $FIRMWARE = "XWKE7" ]; then
+  COMMON_MEDIA="$COMMON_MEDIA ODEAnim.zip"
+else
+  COMMON_MEDIA="$COMMON_MEDIA odeanim.qmg"
+fi
 
 copy_files "$COMMON_MEDIA" "system/media" "media"
 
