@@ -360,8 +360,13 @@ COMMON_MEDIA="
 	Disconnected.qmg
 	battery_charging_40.qmg
 	battery_charging_80.qmg
-	odeanim.qmg
 "
+
+if [ $FIRMWARE = "XWKE7" ]; then
+  COMMON_MEDIA="$COMMON_MEDIA ODEAnim.zip"
+else
+  COMMON_MEDIA="$COMMON_MEDIA odeanim.qmg"
+fi
 
 copy_files "$COMMON_MEDIA" "system/media" "media"
 
