@@ -181,7 +181,7 @@ COMMON_LIBS="
 	libtvoutservice.so
 	libtvout.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" ]
+if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "ZNKG5" ]
 then
     COMMON_LIBS="$COMMON_LIBS
                  libsecjpeginterface.so
@@ -289,7 +289,7 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "UHKI2" ]; then
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "ZNKG5" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
