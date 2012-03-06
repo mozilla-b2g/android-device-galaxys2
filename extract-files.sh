@@ -289,7 +289,7 @@ COMMON_WIFI="
 	wifi.conf
 	wpa_supplicant.conf
 	"
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" ]; then
+if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "UHKI2" ]; then
     COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
 fi
 
