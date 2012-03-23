@@ -121,6 +121,33 @@ PRODUCT_COPY_FILES := \\
 PRODUCT_COPY_FILES += \\
 EOF
 
+# copy_file
+# pull file from the device and adds the file to the list of blobs
+#
+# $1 = src name
+# $2 = dst name
+# $3 = directory path on device
+# $4 = directory name in $PROPRIETARY_COMMON_DIR
+copy_file()
+{
+    echo Pulling \"$1\"
+    if [[ -z "${ANDROIDFS_DIR}" ]]; then
+        adb pull /$3/$1 $PROPRIETARY_COMMON_DIR/$4/$2
+    else
+           # Hint: Uncomment the next line to populate a fresh ANDROIDFS_DIR
+           #       (TODO: Make this a command-line option or something.)
+           # adb pull /$3/$1 ${ANDROIDFS_DIR}/$3/$1
+        cp ${ANDROIDFS_DIR}/$3/$1 $PROPRIETARY_COMMON_DIR/$4/$2
+    fi
+
+    if [[ -f $PROPRIETARY_COMMON_DIR/$4/$1 ]]; then
+        echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$1:$3/$2 \\ >> $COMMON_BLOBS_LIST
+    else
+        echo Failed to pull $1. Giving up.
+        exit -1
+    fi
+}
+
 # copy_files
 # pulls a list of files from the device and adds the files to the list of blobs
 #
@@ -131,22 +158,7 @@ copy_files()
 {
     for NAME in $1
     do
-        echo Pulling \"$NAME\"
-        if [[ -z "${ANDROIDFS_DIR}" ]]; then
-            adb pull /$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
-        else
-           # Hint: Uncomment the next line to populate a fresh ANDROIDFS_DIR
-           #       (TODO: Make this a command-line option or something.)
-           # adb pull /$2/$NAME ${ANDROIDFS_DIR}/$2/$NAME
-           cp ${ANDROIDFS_DIR}/$2/$NAME $PROPRIETARY_COMMON_DIR/$3/$NAME
-        fi
-
-        if [[ -f $PROPRIETARY_COMMON_DIR/$3/$NAME ]]; then
-            echo   $BASE_PROPRIETARY_COMMON_DIR/$3/$NAME:$2/$NAME \\ >> $COMMON_BLOBS_LIST
-        else
-            echo Failed to pull $NAME. Giving up.
-            exit -1
-        fi
+        copy_file "$NAME" "$NAME" "$2" "$3"
     done
 }
 
@@ -264,9 +276,9 @@ fi
 
 if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" ]
 then
-    COMMON_HW="$COMMON_HW gps.s5pc210.so"
+    copy_file "gps.s5pc210.so" "vendor-gps.smdkv310.so" "system/lib/hw" "hw"
 else
-    COMMON_HW="$COMMON_HW gps.GT-I9100.so"
+    copy_file "gps.GT-I9100.so" "vendor-gps.smdkv310.so" "system/lib/hw" "hw"
 fi
 
 copy_files "$COMMON_HW" "system/lib/hw" "hw"
