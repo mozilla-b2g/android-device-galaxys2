@@ -48,6 +48,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=XXKI3 ;;
 "GINGERBREAD.XXKI4")
   FIRMWARE=XXKI4 ;;
+"GINGERBREAD.DXKG3")
+  FIRMWARE=DXKG3 ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -374,7 +376,7 @@ COMMON_MEDIA="
 	battery_charging_80.qmg
 "
 
-if [ $FIRMWARE = "XWKE7" ]; then
+if [ $FIRMWARE = "XWKE7" -o $FIRMWARE = "DXKG3 "]; then
   COMMON_MEDIA="$COMMON_MEDIA ODEAnim.zip"
 else
   COMMON_MEDIA="$COMMON_MEDIA odeanim.qmg"
