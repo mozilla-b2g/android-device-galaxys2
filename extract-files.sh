@@ -164,6 +164,21 @@ copy_files()
     done
 }
 
+# copy_local_files
+# puts files in this directory on the list of blobs to install
+#
+# $1 = list of files
+# $2 = directory path on device
+# $3 = local directory path
+copy_local_files()
+{
+    for NAME in $1
+    do
+        echo Adding \"$NAME\"
+        echo device/$MANUFACTURER/$DEVICE/$3/$NAME:$2/$NAME \\ >> $COMMON_BLOBS_LIST
+    done
+}
+
 COMMON_LIBS="
 	libActionShot.so
 	libakm.so
@@ -284,6 +299,15 @@ else
 fi
 
 copy_files "$COMMON_HW" "system/lib/hw" "hw"
+
+COMMON_IDC="
+	melfas_ts.idc
+	qwerty2.idc
+	sec_touchscreen.idc
+	mxt224_ts_input.idc
+	qwerty.idc
+	"
+copy_local_files "$COMMON_IDC" "system/usr/idc" "idc"
 
 COMMON_KEYCHARS="
 	Broadcom_Bluetooth_HID.kcm.bin
