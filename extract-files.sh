@@ -143,7 +143,7 @@ copy_file()
     fi
 
     if [[ -f $PROPRIETARY_COMMON_DIR/$4/$2 ]]; then
-        echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$1:$3/$2 \\ >> $COMMON_BLOBS_LIST
+        echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$2:$3/$2 \\ >> $COMMON_BLOBS_LIST
     else
         echo Failed to pull $1. Giving up.
         exit -1
