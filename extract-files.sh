@@ -142,7 +142,7 @@ copy_file()
         cp ${ANDROIDFS_DIR}/$3/$1 $PROPRIETARY_COMMON_DIR/$4/$2
     fi
 
-    if [[ -f $PROPRIETARY_COMMON_DIR/$4/$1 ]]; then
+    if [[ -f $PROPRIETARY_COMMON_DIR/$4/$2 ]]; then
         echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$1:$3/$2 \\ >> $COMMON_BLOBS_LIST
     else
         echo Failed to pull $1. Giving up.
@@ -420,7 +420,7 @@ COMMON_MEDIA="
 	battery_charging_80.qmg
 "
 
-if [ $FIRMWARE = "XWKE7" -o $FIRMWARE = "DXKG3 "]; then
+if [ $FIRMWARE = "XWKE7" -o $FIRMWARE = "DXKG3" ]; then
   COMMON_MEDIA="$COMMON_MEDIA ODEAnim.zip"
 else
   COMMON_MEDIA="$COMMON_MEDIA odeanim.qmg"
