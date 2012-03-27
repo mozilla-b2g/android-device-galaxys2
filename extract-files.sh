@@ -342,6 +342,26 @@ else
 copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
 fi
 
+COMMON_MDNIE_MODE="
+	mdnie_tune_bypass_mode
+	mdnie_tune_camera_mode
+	mdnie_tune_camera_outdoor_mode
+	mdnie_tune_dynamic_mode
+	mdnie_tune_gallery_mode
+	mdnie_tune_movie_mode
+	mdnie_tune_outdoor_mode
+	mdnie_tune_standard_mode
+	mdnie_tune_ui_dynamic_mode
+	mdnie_tune_ui_movie_mode
+	mdnie_tune_ui_standard_mode
+	mdnie_tune_video_cold_mode
+	mdnie_tune_video_cold_outdoor_mode
+	mdnie_tune_video_mode
+	mdnie_tune_video_warm_mode
+	mdnie_tune_video_warm_outdoor_mode
+	"
+copy_files "$COMMON_MDNIE_MODE" "system/etc" "etc"
+
 COMMON_WIFI_LIBS="
 	libhardware_legacy.so
 	libnetutils.so
