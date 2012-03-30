@@ -61,7 +61,7 @@ PROPRIETARY_COMMON_DIR=../../../$BASE_PROPRIETARY_COMMON_DIR
 
 mkdir -p $PROPRIETARY_DEVICE_DIR
 
-for NAME in audio cameradat egl firmware hw keychars wifi media
+for NAME in audio cameradat egl firmware hw keychars wifi media etc
 do
     mkdir -p $PROPRIETARY_COMMON_DIR/$NAME
 done
