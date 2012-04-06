@@ -19,37 +19,14 @@ COMMON=c1-common
 MANUFACTURER=samsung
 
 if [[ -z "${ANDROIDFS_DIR}" ]]; then
-    DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+    DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n'`
 else
-    DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\r'`
+    DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n'`
 fi
 
 case "$DEVICE_BUILD_ID" in
-"GINGERBREAD.UHKG7")
-  FIRMWARE=UHKG7 ;;
-"GINGERBREAD.XWKE7")
-  FIRMWARE=XWKE7 ;;
-"GINGERBREAD.UHKI2")
-  FIRMWARE=UHKI2 ;;
-"GINGERBREAD.XWKE2")
-  echo 'Sorry, this firmware is too old (2.3.3).  Upgrade to 2.3.4.' >&2
-  exit 1 ;;
-"GINGERBREAD.ZSKI3")
-  FIRMWARE=ZSKI3 ;;
-"GWK74")
-  FIRMWARE=GWK74 ;;
-"GINGERBREAD.XWKI4")
-  FIRMWARE=XWKI4 ;;
-"GINGERBREAD.XWKJ2")
-  FIRMWARE=XWKJ2 ;;
-"GINGERBREAD.ZNKG5")
-  FIRMWARE=ZNKG5 ;;
-"GINGERBREAD.XXKI3")
-  FIRMWARE=XXKI3 ;;
-"GINGERBREAD.XXKI4")
-  FIRMWARE=XXKI4 ;;
-"GINGERBREAD.DXKG3")
-  FIRMWARE=DXKG3 ;;
+"IML74K.XXLPQ")
+  FIRMWARE=XXLPQ ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -61,7 +38,7 @@ PROPRIETARY_COMMON_DIR=../../../$BASE_PROPRIETARY_COMMON_DIR
 
 mkdir -p $PROPRIETARY_DEVICE_DIR
 
-for NAME in audio cameradat egl firmware hw keychars wifi media etc
+for NAME in audio cameradata egl firmware hw keychars wifi media
 do
     mkdir -p $PROPRIETARY_COMMON_DIR/$NAME
 done
@@ -111,13 +88,7 @@ COMMON_BLOBS_LIST=../../../vendor/$MANUFACTURER/$COMMON/c1-vendor-blobs.mk
 # limitations under the License.
 
 # Prebuilt libraries that are needed to build open-source libraries
-PRODUCT_COPY_FILES := \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/libcamera.so:obj/lib/libcamera.so \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/libril.so:obj/lib/libril.so \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/libsecril-client.so:obj/lib/libsecril-client.so \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/audio/libaudio.so:obj/lib/libaudio.so \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/audio/libmediayamahaservice.so:obj/lib/libmediayamahaservice.so \\
-    vendor/__MANUFACTURER__/__COMMON__/proprietary/audio/libaudiopolicy.so:obj/lib/libaudiopolicy.so
+PRODUCT_COPY_FILES := device/sample/etc/apns-full-conf.xml:system/etc/apns-conf.xml
 
 # All the blobs necessary for galaxys2 devices
 PRODUCT_COPY_FILES += \\
@@ -180,52 +151,17 @@ copy_local_files()
 }
 
 COMMON_LIBS="
-	libActionShot.so
-	libakm.so
-	libarccamera.so
-	libcamera_client.so
-	libcameraservice.so
-	libcamera.so
-	libcaps.so
-	libexif.so
-	libfimc.so
-	libfimg.so
-	libQmageDecoder.so
-	libMali.so
-	libPanoraMax3.so
-	libril.so
-	libs5pjpeg.so
-	libseccameraadaptor.so
-	libseccamera.so
 	libsecril-client.so
 	libsec-ril.so
-	libtvoutcec.so
-	libtvoutddc.so
-	libtvoutedid.so
-	lib_tvoutengine.so
-	libtvoutfimc.so
-	libtvoutfimg.so
-	libtvouthdmi.so
-	libtvout_jni.so
+        libMali.so
+	libUMP.so
+	libakm.so
+	libs5pjpeg.so
 	libtvoutservice.so
-	libtvout.so
+	libtvoutinterface.so
+	libhdmiclient.so
 	"
-if [ $FIRMWARE = "UHKG7" -o $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "ZNKG5" ]
-then
-    COMMON_LIBS="$COMMON_LIBS
-                 libsecjpeginterface.so
-                 libsecjpegboard.so
-                 libsecjpegarcsoft.so"
-fi
 
-if [ $FIRMWARE != "UHKG7" ] && [ $FIRMWARE != "ZSKI3" ] && \
-   [ $FIRMWARE != "GWK74" ] && [ $FIRMWARE != "UHKI2" ] && \
-   [ $FIRMWARE != "XWKI4" ] && [ $FIRMWARE != "ZNKG5" ] && \
-   [ $FIRMWARE != "XWKE7" ] && [ $FIRMWARE != "XXKI3" ] && \
-   [ $FIRMWARE != "XWKJ2" ] && [ $FIRMWARE != "XXKI4" ]
-then
-    COMMON_LIBS="$COMMON_LIBS libsecjpegencoder.so"
-fi
 copy_files "$COMMON_LIBS" "system/lib" ""
 
 if [[ -z "${ANDROIDFS_DIR}" ]]; then
@@ -236,68 +172,48 @@ fi
 COMMON_BINS="
 	playlpm
 	immvibed
-	charging_mode
+	lpmkey
 	rild
-	tvoutserver
 	${HCDNAME}
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
-if [ $FIRMWARE != "UHKG7" -a $FIRMWARE != "ZSKI3" -a $FIRMWARE != "UHKI2" -a $FIRMWARE != "XWKI4" -a $FIRMWARE != "ZNKG5" -a $FIRMWARE = "XWKE7" -a $FIRMWARE != "XXKI3" -a $FIRMWARE != "XWKJ2" ]
-then
 COMMON_CAMERADATA="
 	datapattern_420sp.yuv
 	datapattern_front_420sp.yuv
 	"
-fi
 copy_files "$COMMON_CAMERADATA" "system/cameradata" "cameradata"
 
 COMMON_EGL="
+	egl.cfg
 	libEGL_mali.so
+	libGLES_android.so
 	libGLESv1_CM_mali.so
 	libGLESv2_mali.so
 	"
 copy_files "$COMMON_EGL" "system/lib/egl" "egl"
 
 COMMON_FIRMWARE="
-	qt602240.fw
+	RS_M5LS_TB.bin
 	"
 copy_files "$COMMON_FIRMWARE" "system/etc/firmware" "firmware"
-copy_files "mfc_fw.bin" "vendor/firmware" "firmware"
+copy_files "libpn544_fw.so" "system/vendor/firmware" "firmware"
 
-if [ $FIRMWARE = "GWK74" ]
-then
-    COMMON_HW="
-	acoustics.default.so
+COMMON_HW="
 	alsa.default.so
-	copybit.smdkv310.so
-	gps.goldfish.so
-	gralloc.default.so
-	gralloc.smdkv310.so
-	lights.smdkv310.so
-	overlay.smdkv310.so
-	sensors.goldfish.so
+	audio.a2dp.default.so
+	audio_policy.default.so
+	audio_policy.exynos4.so
+	audio.primary.default.so
+	audio.primary.exynos4.so
+	audio.primary.goldfish.so
+	camera.exynos4.so
+	gps.exynos4.so
+	gralloc.exynos4.so
+	hwcomposer.exynos4.so
+	lights.exynos4.so
+	sensors.default.so
 	"
-else
-    COMMON_HW="
-	acoustics.default.so
-	alsa.default.so
-	copybit.GT-I9100.so
-	gralloc.default.so
-	gralloc.GT-I9100.so
-	lights.GT-I9100.so
-	overlay.GT-I9100.so
-	sensors.GT-I9100.so
-	"
-fi
-
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XWKJ2" -o $FIRMWARE = "XXKI4" ]
-then
-    copy_file "gps.s5pc210.so" "vendor-gps.smdkv310.so" "system/lib/hw" "hw"
-else
-    copy_file "gps.GT-I9100.so" "vendor-gps.smdkv310.so" "system/lib/hw" "hw"
-fi
-
 copy_files "$COMMON_HW" "system/lib/hw" "hw"
 
 COMMON_IDC="
@@ -310,37 +226,32 @@ COMMON_IDC="
 copy_local_files "$COMMON_IDC" "system/usr/idc" "idc"
 
 COMMON_KEYCHARS="
-	Broadcom_Bluetooth_HID.kcm.bin
-	qwerty2.kcm.bin
-	qwerty.kcm.bin
-	sec_key.kcm.bin
-	sec_touchkey.kcm.bin
+	Generic.kcm
+	qwerty.kcm
+	qwerty2.kcm
+	Virtual.kcm
 	"
 copy_files "$COMMON_KEYCHARS" "system/usr/keychars" "keychars"
 
 COMMON_WIFI="
+	bcm4330_apsta.bin
 	bcm4330_mfg.bin
+	bcm4330_p2p.bin
 	bcm4330_sta.bin
 	nvram_mfg.txt
 	nvram_net.txt
-	nvram_net_02K.txt
-	wifi.conf
+	nvram_net.txt_AU
+	nvram_net.txt_IL
+	nvram_net.txt_murata
+	nvram_net.txt_murata_AU
+	nvram_net.txt_murata_IL
+	nvram_net.txt_murata_SG
+	nvram_net.txt_murata_TN
+	nvram_net.txt_SG
+	nvram_net.txt_TN
 	wpa_supplicant.conf
 	"
-if [ $FIRMWARE = "ZSKI3" -o $FIRMWARE = "XXKI3" -o $FIRMWARE = "XXKI4" -o $FIRMWARE = "XWKI4" -o $FIRMWARE = "UHKI2" -o $FIRMWARE = "ZNKG5" ]; then
-    COMMON_WIFI="$COMMON_WIFI nvram_net.txt_murata"
-fi
-
-if [ $FIRMWARE != "ZNKG5" -a $FIRMWARE != "XWKE7" ]; then
-  COMMON_WIFI="$COMMON_WIFI bcm4330_aps.bin"
-fi
-
-if [ $FIRMWARE = "GWK74" ]; then
-copy_files "$COMMON_WIFI" "system/vendor/firmware" "wifi"
-copy_files wpa_supplicant.conf "system/etc/wifi" "wifi"
-else
 copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
-fi
 
 COMMON_MDNIE_MODE="
 	mdnie_tune_bypass_mode
@@ -369,25 +280,12 @@ COMMON_WIFI_LIBS="
 copy_files "$COMMON_WIFI_LIBS" "system/lib" "wifi"
 
 COMMON_AUDIO="
-	libasound.so
-	libaudio.so
-	libaudioeffect_jni.so
-	libaudiohw_op.so
-	libaudiohw_sf.so
-	libaudiopolicy.so
-	liblvvefs.so
-	libmediayamaha.so
-	libmediayamaha_jni.so
 	libmediayamahaservice.so
-	libmediayamaha_tuning_jni.so
-	libsamsungAcousticeq.so
-	lib_Samsung_Acoustic_Module_Llite.so
-	lib_Samsung_Resampler.so
 	libsamsungSoundbooster.so
-	lib_Samsung_Sound_Booster.so
+	libsamsungAcousticeq.so
 	libsoundalive.so
-	libSR_AudioIn.so
-	libyamahasrc.so
+	libsoundspeed.so
+	libaudiohw.so
 	"
 copy_files "$COMMON_AUDIO" "system/lib" "audio"
 
@@ -419,15 +317,6 @@ COMMON_MEDIA="
 	battery_charging_40.qmg
 	battery_charging_80.qmg
 "
-
-if [ $FIRMWARE = "XWKE7" -o $FIRMWARE = "DXKG3" ]; then
-  COMMON_MEDIA="$COMMON_MEDIA ODEAnim.zip"
-else
-  COMMON_MEDIA="$COMMON_MEDIA odeanim.qmg"
-fi
-
 copy_files "$COMMON_MEDIA" "system/media" "media"
-
-./extract-cm.sh
 
 ./setup-makefiles.sh

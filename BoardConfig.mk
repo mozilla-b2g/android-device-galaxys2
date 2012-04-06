@@ -39,6 +39,7 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
 TARGET_PROVIDES_INIT := true
+TARGET_PROVIDES_INIT_RC := true
 TARGET_PROVIDES_INIT_TARGET_RC := true
 TARGET_BOARD_PLATFORM := smdkv310
 TARGET_BOOTLOADER_BOARD_NAME := GT-I9100
@@ -73,7 +74,8 @@ BOARD_FM_DEVICE := si4709
 # Vibrator
 BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/samsung/c1-common/vibrator/tspdrv.c
 
-BOARD_NAND_PAGE_SIZE := 4096 -s 128
+#BOARD_NAND_PAGE_SIZE := 4096 -s 128
+BOARD_NAND_PAGE_SIZE := 4096
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_CMDLINE := console=ttySAC2,115200 consoleblank=0
@@ -85,15 +87,15 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 2147483648
 BOARD_FLASH_BLOCK_SIZE := 4096
 
 # Connectivity - Wi-Fi
-WPA_SUPPLICANT_VERSION := VER_0_6_X
+WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-# galaxys2 uses bcm4330
-BOARD_WLAN_DEVICE := bcm4330
+BOARD_WLAN_DEVICE := bcmdhd
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
 WIFI_DRIVER_MODULE_PATH     := "/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_STA_PATH     := "/system/vendor/firmware/bcm4330_sta.bin"
-WIFI_DRIVER_FW_AP_PATH      := "/system/vendor/firmware/bcm4330_aps.bin"
+WIFI_DRIVER_FW_STA_PATH     := "/system/etc/wifi/bcm4330_sta.bin"
+WIFI_DRIVER_FW_AP_PATH      := "/system/etc/wifi/bcm4330_aps.bin"
 WIFI_DRIVER_MODULE_NAME     :=  "dhd"
-WIFI_DRIVER_MODULE_ARG      :=  "firmware_path=/system/vendor/firmware/bcm4330_sta.bin nvram_path=/system/etc/nvram_net.txt"
+WIFI_DRIVER_MODULE_ARG      :=  "firmware_path=/system/etc/wifi/bcm4330_sta.bin nvram_path=/system/etc/nvram_net.txt"
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 12
