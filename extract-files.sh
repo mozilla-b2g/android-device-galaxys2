@@ -19,9 +19,9 @@ COMMON=c1-common
 MANUFACTURER=samsung
 
 if [[ -z "${ANDROIDFS_DIR}" ]]; then
-    DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n'`
+    DEVICE_BUILD_ID=`adb shell cat /system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n\r'`
 else
-    DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n'`
+    DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n\r'`
 fi
 
 case "$DEVICE_BUILD_ID" in
@@ -151,15 +151,23 @@ copy_local_files()
 }
 
 COMMON_LIBS="
+	libion.so
+	libddc.so
+	libedid.so
+	libcec.so
+	libfimg.so
+	libfimc.so
+	libhdmi.so
+	libhdmiclient.so
+	libTVOut.so
 	libsecril-client.so
 	libsec-ril.so
-        libMali.so
+	libMali.so
 	libUMP.so
 	libakm.so
 	libs5pjpeg.so
 	libtvoutservice.so
 	libtvoutinterface.so
-	libhdmiclient.so
 	"
 
 copy_files "$COMMON_LIBS" "system/lib" ""
@@ -174,6 +182,8 @@ COMMON_BINS="
 	immvibed
 	lpmkey
 	rild
+	mediaserver
+	servicemanager
 	${HCDNAME}
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
@@ -187,7 +197,6 @@ copy_files "$COMMON_CAMERADATA" "system/cameradata" "cameradata"
 COMMON_EGL="
 	egl.cfg
 	libEGL_mali.so
-	libGLES_android.so
 	libGLESv1_CM_mali.so
 	libGLESv2_mali.so
 	"
@@ -203,7 +212,6 @@ COMMON_HW="
 	alsa.default.so
 	audio.a2dp.default.so
 	audio_policy.default.so
-	audio_policy.exynos4.so
 	audio.primary.default.so
 	audio.primary.exynos4.so
 	audio.primary.goldfish.so
@@ -253,41 +261,40 @@ COMMON_WIFI="
 	"
 copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
 
-COMMON_MDNIE_MODE="
-	mdnie_tune_bypass_mode
-	mdnie_tune_camera_mode
-	mdnie_tune_camera_outdoor_mode
-	mdnie_tune_dynamic_mode
-	mdnie_tune_gallery_mode
-	mdnie_tune_movie_mode
-	mdnie_tune_outdoor_mode
-	mdnie_tune_standard_mode
-	mdnie_tune_ui_dynamic_mode
-	mdnie_tune_ui_movie_mode
-	mdnie_tune_ui_standard_mode
-	mdnie_tune_video_cold_mode
-	mdnie_tune_video_cold_outdoor_mode
-	mdnie_tune_video_mode
-	mdnie_tune_video_warm_mode
-	mdnie_tune_video_warm_outdoor_mode
-	"
-copy_files "$COMMON_MDNIE_MODE" "system/etc" "etc"
-
-COMMON_WIFI_LIBS="
-	libhardware_legacy.so
-	libnetutils.so
-	"
-copy_files "$COMMON_WIFI_LIBS" "system/lib" "wifi"
-
 COMMON_AUDIO="
+	libasound.so
 	libmediayamahaservice.so
 	libsamsungSoundbooster.so
 	libsamsungAcousticeq.so
 	libsoundalive.so
 	libsoundspeed.so
 	libaudiohw.so
+	libmediayamaha.so
+	libmediayamahaservice.so
+	lib_Samsung_Acoustic_Module_Llite.so
+	lib_Samsung_Resampler.so
+	lib_Samsung_Sound_Booster.so
+	liblvvefs.so
 	"
 copy_files "$COMMON_AUDIO" "system/lib" "audio"
+
+COMMON_AUDIO_CONFIG="
+	LVVEFS_Rx_Configuration.txt
+	LVVEFS_Tx_Configuration.txt
+	Rx_ControlParams_BLUETOOTH_HEADSET.txt
+	Rx_ControlParams_EARPIECE_WIDEBAND.txt
+	Rx_ControlParams_SPEAKER_WIDEBAND.txt
+	Rx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt
+	Rx_ControlParams_WIRED_HEADSET_WIDEBAND.txt
+	Tx_ControlParams_BLUETOOTH_HEADSET.txt
+	Tx_ControlParams_EARPIECE_WIDEBAND.txt
+	Tx_ControlParams_SPEAKER_WIDEBAND.txt
+	Tx_ControlParams_WIRED_HEADPHONE_WIDEBAND.txt
+	Tx_ControlParams_WIRED_HEADSET_WIDEBAND.txt
+	"
+copy_files "$COMMON_AUDIO_CONFIG" "system/etc/audio" "audio"
+copy_files "asound.conf" "system/etc" "audio"
+copy_files "alsa.conf" "system/usr/share/alsa" "audio"
 
 COMMON_MEDIA="
 	battery_batteryerror.qmg
