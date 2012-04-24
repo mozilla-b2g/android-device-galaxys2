@@ -27,6 +27,8 @@ fi
 case "$DEVICE_BUILD_ID" in
 "IML74K.XXLPQ")
   FIRMWARE=XXLPQ ;;
+"IML74K.ZSLPF")
+  FIRMWARE=ZSLPF ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -202,9 +204,13 @@ COMMON_EGL="
 	"
 copy_files "$COMMON_EGL" "system/lib/egl" "egl"
 
+if [ $FIRMWARE = "XXLPQ" ];
+then
 COMMON_FIRMWARE="
 	RS_M5LS_TB.bin
 	"
+fi
+
 copy_files "$COMMON_FIRMWARE" "system/etc/firmware" "firmware"
 copy_files "libpn544_fw.so" "system/vendor/firmware" "firmware"
 
