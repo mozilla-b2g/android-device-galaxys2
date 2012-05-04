@@ -170,6 +170,17 @@ COMMON_LIBS="
 	libs5pjpeg.so
 	libtvoutservice.so
 	libtvoutinterface.so
+	libdirencryption.so
+	libext2_blkid.so
+	libext2_com_err.so
+	libext2_e2p.so
+	libext2fs.so
+	libext2_uuid.so
+	libkeyutils.so
+	libsec_devenc.so
+	libsec_ecryptfs.so
+	libsecfips.so
+	libsec_km.so
 	"
 
 copy_files "$COMMON_LIBS" "system/lib" ""
@@ -186,6 +197,7 @@ COMMON_BINS="
 	rild
 	mediaserver
 	servicemanager
+	vold
 	${HCDNAME}
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
