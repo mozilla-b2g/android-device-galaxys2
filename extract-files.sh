@@ -40,7 +40,7 @@ PROPRIETARY_COMMON_DIR=../../../$BASE_PROPRIETARY_COMMON_DIR
 
 mkdir -p $PROPRIETARY_DEVICE_DIR
 
-for NAME in audio cameradata egl firmware hw keychars wifi media sbin
+for NAME in audio cameradata egl firmware hw keychars wifi media
 do
     mkdir -p $PROPRIETARY_COMMON_DIR/$NAME
 done
@@ -103,7 +103,6 @@ EOF
 # $2 = dst name
 # $3 = directory path on device
 # $4 = directory name in $PROPRIETARY_COMMON_DIR
-# $5 = directory path in $PRODUCT_OUT to install the file at
 copy_file()
 {
     echo Pulling \"$1\"
@@ -117,7 +116,7 @@ copy_file()
     fi
 
     if [[ -f $PROPRIETARY_COMMON_DIR/$4/$2 ]]; then
-        echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$2:$5/$2 \\ >> $COMMON_BLOBS_LIST
+        echo   $BASE_PROPRIETARY_COMMON_DIR/$4/$2:$3/$2 \\ >> $COMMON_BLOBS_LIST
     else
         echo Failed to pull $1. Giving up.
         exit -1
@@ -134,7 +133,7 @@ copy_files()
 {
     for NAME in $1
     do
-        copy_file "$NAME" "$NAME" "$2" "$3" "$2"
+        copy_file "$NAME" "$NAME" "$2" "$3"
     done
 }
 
@@ -346,12 +345,3 @@ COMMON_MEDIA="
 copy_files "$COMMON_MEDIA" "system/media" "media"
 
 ./setup-makefiles.sh
-
-# Pull Samsung adbd off device.  We build it from source but the
-# ICS-stock build seems to have problems on device.
-#
-# A bit trickier because its source and dest locations are different.
-# (We don't use the stock recovery image but let's leave it not-broken
-# anyway.)
-copy_file "adbd" "adbd" "sbin" "sbin" "root/sbin"
-copy_file "adbd" "adbd" "sbin" "sbin" "recovery/root/sbin"
