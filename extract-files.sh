@@ -31,6 +31,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=XXLPQ ;;
 "IML74K.ZSLPF")
   FIRMWARE=ZSLPF ;;
+"IML74K.XWLP7")
+  FIRMWARE=XWLP7 ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   exit 1 ;;
@@ -218,7 +220,7 @@ COMMON_EGL="
 	"
 copy_files "$COMMON_EGL" "system/lib/egl" "egl"
 
-if [ $FIRMWARE = "XXLPQ" ];
+if [ $FIRMWARE = "XXLPQ" ] || [ $FIRMWARE = "XWLP7" ];
 then
 COMMON_FIRMWARE="
 	RS_M5LS_TB.bin
