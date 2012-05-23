@@ -35,6 +35,12 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=XWLP7 ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
+  echo >&2
+  echo Supported firmware: >&2
+  echo UHLPE >&2
+  echo XXLPQ >&2
+  echo ZSLPF >&2
+  echo XWLP7 >&2
   exit 1 ;;
 esac
 
