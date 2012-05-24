@@ -25,14 +25,30 @@ else
 fi
 
 case "$DEVICE_BUILD_ID" in
+"IML74K.UHLPE")
+  FIRMWARE=UHLPE ;;
 "IML74K.XXLPQ")
   FIRMWARE=XXLPQ ;;
 "IML74K.ZSLPF")
   FIRMWARE=ZSLPF ;;
+<<<<<<< HEAD
 "IML74K.ZSLPG")
   FIRMWARE=ZSLPG ;;
+=======
+"IML74K.XWLP7")
+  FIRMWARE=XWLP7 ;;
+"IML74K.BGLP8")
+  FIRMWARE=BGLP8 ;;
+>>>>>>> b2g-s2/master
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
+  echo >&2
+  echo Supported firmware: >&2
+  echo UHLPE >&2
+  echo XXLPQ >&2
+  echo ZSLPF >&2
+  echo XWLP7 >&2
+  echo BGLP8 >&2
   exit 1 ;;
 esac
 
@@ -218,7 +234,7 @@ COMMON_EGL="
 	"
 copy_files "$COMMON_EGL" "system/lib/egl" "egl"
 
-if [ $FIRMWARE = "XXLPQ" ];
+if [ $FIRMWARE = "XXLPQ" ] || [ $FIRMWARE = "XWLP7" ];
 then
 COMMON_FIRMWARE="
 	RS_M5LS_TB.bin
