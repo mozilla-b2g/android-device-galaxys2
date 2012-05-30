@@ -178,6 +178,7 @@ COMMON_LIBS="
 	libhdmi.so
 	libhdmiclient.so
 	libTVOut.so
+	libril.so
 	libsecril-client.so
 	libsec-ril.so
 	libMali.so
