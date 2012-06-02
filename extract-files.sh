@@ -37,6 +37,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=BGLP8 ;;
 "IML74K.ZSLPG")
   FIRMWARE=ZSLPG ;;
+"IML74K.XWLPD")
+  FIRMWARE=XWLPD ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
   echo >&2
@@ -47,6 +49,7 @@ case "$DEVICE_BUILD_ID" in
   echo XWLP7 >&2
   echo BGLP8 >&2
   echo ZSLPG >&2
+  echo XWLPD >&2
   exit 1 ;;
 esac
 
