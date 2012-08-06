@@ -30,6 +30,12 @@ $(call inherit-product, device/samsung/galaxys2/galaxys2.mk)
 # Galaxy S uses high-density artwork where available
 PRODUCT_LOCALES += hdpi
 
+PRODUCT_PROPERTY_OVERRIDES += \
+  ro.moz.ril.callstate_extra_int=true \
+  ro.moz.ril.callstate_down_is_up=true \
+  ro.moz.ril.v5_legacy=true \
+  ro.moz.ril.dial_emergency_call=true
+
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_galaxys2
 PRODUCT_DEVICE := galaxys2
