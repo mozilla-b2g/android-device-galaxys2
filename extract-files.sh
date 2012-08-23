@@ -56,6 +56,7 @@ case "$DEVICE_BUILD_ID" in
   echo BGLP8 >&2
   echo ZSLPG >&2
   echo XWLPD >&2
+  echo XWLPI >&2
   exit 1 ;;
 esac
 
