@@ -43,7 +43,7 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=BGLP8 ;;
 "IML74K.ZSLPG")
   FIRMWARE=ZSLPG ;;
-"IML74K.XWLPD")
+"IML74K.XWLPD"|"IML74K.XWLPI")
   FIRMWARE=XWLPD ;;
 *)
   echo Your device has unknown firmware $DEVICE_BUILD_ID >&2
