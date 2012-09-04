@@ -271,7 +271,6 @@ COMMON_HW="
 	camera.exynos4.so
 	gps.exynos4.so
 	gralloc.exynos4.so
-	hwcomposer.exynos4.so
 	lights.exynos4.so
 	sensors.default.so
 	"
