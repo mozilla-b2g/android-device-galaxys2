@@ -39,6 +39,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=ZSLPF ;;
 "IML74K.XWLP7")
   FIRMWARE=XWLP7 ;;
+"IML74K.BGLP8")
+  FIRMWARE=BGLP8 ;;
 "IML74K.BGLP9")
   FIRMWARE=BGLP9 ;;
 "IML74K.ZSLPG")
@@ -55,6 +57,7 @@ case "$DEVICE_BUILD_ID" in
   echo XXLPQ >&2
   echo ZSLPF >&2
   echo XWLP7 >&2
+  echo BGLP8 >&2
   echo BGLP9 >&2
   echo ZSLPG >&2
   echo XWLPD >&2
