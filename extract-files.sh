@@ -219,7 +219,7 @@ COMMON_LIBS="
 	libsec_ecryptfs.so
 	libsecfips.so
 	libsec_km.so
-    libsurfaceflinger.so
+	libsurfaceflinger.so
 	"
 
 copy_files "$COMMON_LIBS" "system/lib" ""
