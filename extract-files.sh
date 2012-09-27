@@ -41,6 +41,8 @@ case "$DEVICE_BUILD_ID" in
   FIRMWARE=XWLP7 ;;
 "IML74K.BGLP8")
   FIRMWARE=BGLP8 ;;
+"IML74K.BGLP9")
+  FIRMWARE=BGLP9 ;;
 "IML74K.ZSLPG")
   FIRMWARE=ZSLPG ;;
 "IML74K.XWLPD")
@@ -56,6 +58,7 @@ case "$DEVICE_BUILD_ID" in
   echo ZSLPF >&2
   echo XWLP7 >&2
   echo BGLP8 >&2
+  echo BGLP9 >&2
   echo ZSLPG >&2
   echo XWLPD >&2
   echo XWLPI >&2
@@ -216,6 +219,7 @@ COMMON_LIBS="
 	libsec_ecryptfs.so
 	libsecfips.so
 	libsec_km.so
+	libsurfaceflinger.so
 	"
 
 copy_files "$COMMON_LIBS" "system/lib" ""
