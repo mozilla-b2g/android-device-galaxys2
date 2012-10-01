@@ -33,7 +33,8 @@ PRODUCT_LOCALES += hdpi
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.moz.ril.callstate_extra_int=true \
   ro.moz.ril.callstate_down_is_up=true \
-  ro.moz.ril.dial_emergency_call=true
+  ro.moz.ril.dial_emergency_call=true \
+  ro.moz.ril.stk_envelope_w_stat=true
 
 # Discard inherited values and use our own instead.
 PRODUCT_NAME := full_galaxys2
