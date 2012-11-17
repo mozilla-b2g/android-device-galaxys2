@@ -238,6 +238,8 @@ COMMON_BINS="
 	servicemanager
 	vold
 	${HCDNAME}
+	surfaceflinger
+	bintvoutservice
 	"
 copy_files "$COMMON_BINS" "system/bin" ""
 
