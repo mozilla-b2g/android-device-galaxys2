@@ -271,6 +271,7 @@ COMMON_HW="
 	alsa.default.so
 	audio.a2dp.default.so
 	audio_policy.default.so
+	audio_policy.exynos4.so
 	audio.primary.default.so
 	audio.primary.exynos4.so
 	audio.primary.goldfish.so
