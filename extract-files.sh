@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Copyright (C) 2010 The Android Open Source Project
 #
@@ -29,6 +29,8 @@ else
     echo Pulling files from ${ANDROIDFS_DIR}
     DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n\r'`
 fi
+
+DEVICE_BUILD_ID="IML74K.BGLP9"
 
 case "$DEVICE_BUILD_ID" in
 "IML74K.UHLPE")
