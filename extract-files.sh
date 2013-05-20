@@ -321,7 +321,6 @@ copy_files "$COMMON_WIFI" "system/etc/wifi" "wifi"
 
 COMMON_AUDIO="
 	libasound.so
-	libmediayamahaservice.so
 	libsamsungSoundbooster.so
 	libsamsungAcousticeq.so
 	libsoundalive.so
