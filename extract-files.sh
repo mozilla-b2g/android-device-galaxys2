@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Copyright (C) 2010 The Android Open Source Project
 #
@@ -29,6 +29,8 @@ else
     echo Pulling files from ${ANDROIDFS_DIR}
     DEVICE_BUILD_ID=`cat ${ANDROIDFS_DIR}/system/build.prop | grep ro.build.display.id | sed -e 's/ro.build.display.id=//' | tr -d '\n\r'`
 fi
+
+DEVICE_BUILD_ID="IML74K.BGLP9"
 
 case "$DEVICE_BUILD_ID" in
 "IML74K.UHLPE")
@@ -271,6 +273,7 @@ COMMON_HW="
 	alsa.default.so
 	audio.a2dp.default.so
 	audio_policy.default.so
+	audio_policy.exynos4.so
 	audio.primary.default.so
 	audio.primary.exynos4.so
 	audio.primary.goldfish.so
